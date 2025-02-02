@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 
-  @apply bg-emerald-700;
+  @apply bg-green-800;
+}
+
+.text-dark {
+  @apply text-neutral-900;
 }

@@ -1,13 +1,10 @@
-import './App.css'
+import "./App.css";
 
 function App() {
 
   return (
     <>
-        <div className={'bg-ember-500'}>Hello world
-
-            <span className={'test'}>hello?</span>
-        </div>
+        <div>Hello world</div>
     </>
   )
 }
