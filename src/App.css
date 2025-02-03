@@ -1,13 +1,31 @@
 @import "tailwindcss";
+@import "./components/LoginCover.css";
 
 #root {
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-
-  @apply bg-green-800;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
 }
 
-.text-dark {
-  @apply text-neutral-900;
+.container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.container.container-center {
+  flex: 2;
+  justify-content: center;
+  align-items: center;
+  min-width: 30rem;
+}
+
+.container.container-left,
+.container.container-right {
+  flex: 1;
+  @apply bg-neutral-700;
+  max-width: 20rem;
+  min-width: 3rem;
 }

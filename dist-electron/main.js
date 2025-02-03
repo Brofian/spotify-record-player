@@ -1,8 +1,6 @@
-import { app, BrowserWindow } from "electron";
-import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
+import { app, BrowserWindow, protocol } from "electron";
 import path from "node:path";
-createRequire(import.meta.url);
+import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 process.env.APP_ROOT = path.join(__dirname, "..");
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
@@ -15,8 +13,11 @@ function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs")
-    }
+    },
+    minWidth: 800,
+    minHeight: 400
   });
+  win.webContents.openDevTools();
   win.webContents.on("did-finish-load", () => {
     win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
@@ -37,7 +38,14 @@ app.on("activate", () => {
     createWindow();
   }
 });
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  protocol.handle("spauth", async (request) => {
+    console.log("spauth protocol: ", request.url);
+    const query = request.url.slice("spauth://success/".length);
+    const targetUrl = VITE_DEV_SERVER_URL ? VITE_DEV_SERVER_URL : path.join(RENDERER_DIST, "index.html");
+    return Response.redirect(targetUrl + query);
+  });
+}).then(createWindow);
 export {
   MAIN_DIST,
   RENDERER_DIST,
