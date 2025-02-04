@@ -1,0 +1,16 @@
+#header {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0.5rem;
+    display: flex;
+    transform: translateY(-100%);
+
+    @apply bg-green-800;
+
+    .layout-container.show & {
+        transform: translateY(0);
+        transition: transform 1s ease-in-out 3s;
+    }
+}

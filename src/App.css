@@ -1,5 +1,9 @@
 @import "tailwindcss";
+@import "./styles/layout.css";
+
 @import "./components/LoginCover.css";
+@import "./components/PlaybackVinyl.css";
+@import "./components/Header.css";
 
 #root {
   margin: 0 auto;
@@ -9,23 +13,37 @@
   display: flex;
 }
 
-.container {
+.layout-container {
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
-.container.container-center {
+.layout-container.container-center {
   flex: 2;
   justify-content: center;
   align-items: center;
   min-width: 30rem;
 }
 
-.container.container-left,
-.container.container-right {
+.layout-container.container-left,
+.layout-container.container-right {
   flex: 1;
+  z-index: 100;
   @apply bg-neutral-700;
   max-width: 20rem;
   min-width: 3rem;
+
+  &.show {
+    transform: translateX(0);
+    transition: transform 1s ease-in-out 2s;
+  }
+}
+
+.layout-container.container-left {
+  transform: translateX(-100%);
+}
+.layout-container.container-right {
+  transform: translateX(100%);
 }

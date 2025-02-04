@@ -14,8 +14,8 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs")
     },
-    minWidth: 800,
-    minHeight: 400
+    width: 1400,
+    height: 1200
   });
   win.webContents.openDevTools();
   win.webContents.on("did-finish-load", () => {

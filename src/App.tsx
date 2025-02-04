@@ -1,28 +1,42 @@
 import "./App.css";
+import {useEffect, useState} from "react";
+import Header from "./components/Header.tsx";
 import LoginCover from "./components/LoginCover.tsx";
+import PlaybackVinyl from "./components/PlaybackVinyl.tsx";
+import SpotifyManager from "./util/SpotifyManager.ts";
+import PlaybackContextWrapper from "./wrappers/PlaybackContextWrapper.tsx";
 
 function App() {
+    const [isAuthenticated, setAuthenticated] = useState(false);
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            SpotifyManager.sdk.authenticate().then(() => {
+                setTimeout(() => {
+                    setAuthenticated(true)
+                }, 1000);
+            })
+        }
+    }, [isAuthenticated]);
+
 
     return (
-        <>
-            <div className={'container container-left'}>
+        <PlaybackContextWrapper>
+            <div className={'layout-container container-left ' + (isAuthenticated ? 'show' : '')}>
 
-                {window.location.href}
-                <br/>
-                {import.meta.env.VITE_CLIENT_ID}
-
-                <a href='https://github.com/electron-vite/electron-vite-react' target='_blank'>Klick mich</a>
 
             </div>
 
-            <div className={'container container-center'}>
-                <LoginCover/>
+            <div className={'layout-container container-center ' + (isAuthenticated ? 'show' : '')}>
+                <Header/>
+                <PlaybackVinyl/>
+                <LoginCover authenticated={isAuthenticated}/>
             </div>
 
-            <div className={'container container-right'}>
+            <div className={'layout-container container-right ' + (isAuthenticated ? 'show' : '')}>
 
             </div>
-        </>
+        </PlaybackContextWrapper>
     )
 }
 

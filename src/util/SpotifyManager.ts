@@ -1,22 +1,21 @@
-import {Page, SimplifiedPlaylist, SpotifyApi} from "@spotify/web-api-ts-sdk";
+import {SpotifyApi} from "@spotify/web-api-ts-sdk";
 
 class SpotifyManagerContainer {
 
-    private readonly sdk: SpotifyApi = SpotifyApi.withUserAuthorization(
+    public readonly sdk: SpotifyApi = SpotifyApi.withUserAuthorization(
         import.meta.env.VITE_CLIENT_ID,
         "spauth://success",
         [
             "user-read-private",
             "user-read-email",
+            "user-read-playback-state",
+            "user-modify-playback-state",
             "playlist-read-private",
             "playlist-modify-public",
             "playlist-modify-private",
         ],
     );
 
-    public async getPlaylists(): Promise<Page<SimplifiedPlaylist>> {
-        return await this.sdk.currentUser.playlists.playlists(50);
-    }
 
 }
 

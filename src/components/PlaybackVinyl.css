@@ -1,0 +1,37 @@
+#playback-vinyl {
+    position: absolute;
+    width: calc(100% - 4rem);
+    max-width: 40rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: vinyl-playing 5s linear infinite paused;
+
+    @apply bg-neutral-900;
+
+    &.playing {
+        animation-play-state: running;
+    }
+
+    .vinyl-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        overflow: hidden;
+        width: 35%;
+        height: 35%;
+    }
+}
+
+@keyframes vinyl-playing {
+    from {
+        rotate: 0;
+    }
+    to {
+        rotate: 360deg;
+    }
+}

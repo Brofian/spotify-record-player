@@ -1,18 +1,9 @@
 import LoginCoverImage from "../assets/cover.png?url";
-import SpotifyManager from "../util/SpotifyManager.ts";
-
-export default function LoginCover() {
 
 
-    const loginCallback = () => {
+export default function LoginCover(props: {authenticated: boolean}) {
 
-        SpotifyManager.getPlaylists().then(result => console.log(result));
-
-
-
-    };
-
-    return <div id='login-cover'>
+    return <div id='login-cover' className={props.authenticated ? 'slide-out' : undefined}>
         <img
             className={'cover-bg'}
             src={LoginCoverImage}
@@ -21,13 +12,7 @@ export default function LoginCover() {
 
         <div className={'login-form'}>
 
-            <h2>Spotify Login</h2>
-
-            <button
-                onClick={loginCallback}
-            >
-                Login
-            </button>
+            <div>Spotify Controller</div>
 
         </div>
 

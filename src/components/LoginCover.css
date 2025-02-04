@@ -1,11 +1,16 @@
 #login-cover {
     position: relative;
     width: 100%;
-    max-width: 50rem;
+    max-width: 40rem;
     aspect-ratio: 1/1;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 6px 6px 6px 3px #000;
+
+    &.slide-out {
+        animation: cover-slide-out 3s ease-in forwards;
+    }
 
     img.cover-bg {
         position: absolute;
@@ -16,9 +21,17 @@
     }
 
     .login-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         position: relative;
         min-width: 10rem;
         min-height: 5rem;
+        padding: 2rem 4rem;
+
+        @apply text-green-500 font-bold text-2xl;
+        filter: drop-shadow(0px 0px 3px #000);
 
         /* From https://css.glass */
         background: rgba(255, 255, 255, 0.08);
@@ -28,4 +41,13 @@
         -webkit-backdrop-filter: blur(12.2px);
     }
 
+}
+
+@keyframes cover-slide-out {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-200vw);
+    }
 }
