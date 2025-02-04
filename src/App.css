@@ -11,6 +11,7 @@
   height: 100vh;
   overflow: hidden;
   display: flex;
+  @apply bg-neutral-800;
 }
 
 .layout-container {
@@ -43,7 +44,9 @@
 
 .layout-container.container-left {
   transform: translateX(-100%);
+  box-shadow: +2px 0 6px 1px #222;
 }
 .layout-container.container-right {
   transform: translateX(100%);
+  box-shadow: -2px 0 6px 1px #222;
 }

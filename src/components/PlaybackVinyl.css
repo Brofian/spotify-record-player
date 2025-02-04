@@ -7,12 +7,32 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: vinyl-playing 5s linear infinite paused;
+    @apply bg-neutral-800;
+    background-image:
+        conic-gradient(from 90deg, #0000 0%, #ffffff1f 10%, #0000 20%, #0000 50%, #ffffff1f 60%, #0000 70%, #0000 100%),
+        repeating-radial-gradient(at 50% 50%, transparent 0%, #2b2b2b 5%, transparent 10%, #292929 15%);
+    box-shadow: 0 0 11px 0 #a3a3a3;
 
-    @apply bg-neutral-900;
+    animation: vinyl-playing 5s linear infinite paused;
 
     &.playing {
         animation-play-state: running;
+    }
+
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        border-radius: 50%;
+        box-shadow: -1px -3px 1px #252525;
+    }
+
+    &:before {
+        width: 60%;
+        height: 60%;
+        animation-delay: -1s;
     }
 
     .vinyl-image {
@@ -24,6 +44,25 @@
         overflow: hidden;
         width: 35%;
         height: 35%;
+        @apply bg-black;
+
+        img {
+            animation: vinyl-playing 5s linear infinite paused;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .vinyl-hole {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 20%;
+        height: 20%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        @apply bg-neutral-800;
     }
 }
 

@@ -1,4 +1,12 @@
-import {PlaybackState} from "@spotify/web-api-ts-sdk";
+import {PlaybackState, Track} from "@spotify/web-api-ts-sdk";
 import {createContext} from "react";
 
-export const PlaybackContext = createContext<PlaybackState | undefined>(undefined);
+type PlaybackContextObject = {
+    state: PlaybackState | undefined,
+    track: Track | undefined,
+}
+
+export const PlaybackContext = createContext<PlaybackContextObject>({
+    state: undefined,
+    track: undefined,
+});
