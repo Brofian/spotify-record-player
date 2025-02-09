@@ -1,8 +1,10 @@
 import "./App.css";
 import {useEffect, useState} from "react";
+import ControlButtons from "./components/ControlButtons.tsx";
 import Header from "./components/Header.tsx";
 import LoginCover from "./components/LoginCover.tsx";
 import PlaybackVinyl from "./components/PlaybackVinyl.tsx";
+import PlaylistListing from "./components/PlaylistListing.tsx";
 import SpotifyManager from "./util/SpotifyManager.ts";
 import PlaybackContextWrapper from "./wrappers/PlaybackContextWrapper.tsx";
 
@@ -23,8 +25,7 @@ function App() {
     return (
         <PlaybackContextWrapper>
             <div className={'layout-container container-left ' + (isAuthenticated ? 'show' : '')}>
-
-
+                <PlaylistListing />
             </div>
 
             <div className={'layout-container container-center ' + (isAuthenticated ? 'show' : '')}>
@@ -34,7 +35,7 @@ function App() {
             </div>
 
             <div className={'layout-container container-right ' + (isAuthenticated ? 'show' : '')}>
-
+                <ControlButtons />
             </div>
         </PlaybackContextWrapper>
     )

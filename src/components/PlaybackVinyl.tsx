@@ -5,8 +5,6 @@ export default function PlaybackVinyl() {
     const playbackContext = useContext(PlaybackContext);
     const {state, track} = playbackContext;
 
-    console.log('rerender playback vinyl: ' + (state?.item && state?.item.name));
-
     const previewImages = track?.album.images || [];
 
     return<div

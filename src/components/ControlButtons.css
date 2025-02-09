@@ -1,0 +1,29 @@
+#control-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    &.is-fetching {
+        .button,
+        .button:hover {
+            @apply bg-gray-600;
+            cursor: default;
+        }
+    }
+
+    .button {
+        border-radius: 50%;
+        @apply bg-green-800;
+        min-width: 3rem;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover {
+            @apply bg-green-900;
+        }
+    }
+
+}

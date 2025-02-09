@@ -4,6 +4,8 @@
 @import "./components/LoginCover.css";
 @import "./components/PlaybackVinyl.css";
 @import "./components/Header.css";
+@import "./components/ControlButtons.css";
+@import "./components/PlaylistListing.css";
 
 #root {
   margin: 0 auto;

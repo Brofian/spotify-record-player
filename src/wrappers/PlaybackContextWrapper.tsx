@@ -24,7 +24,9 @@ export default function PlaybackContextWrapper(props: {children: ReactNode}) {
             SpotifyManager.sdk.player.getCurrentlyPlayingTrack().then(updatePlaybackState);
         }
 
-        const updateLastItemIntervalHandler = (playbackState: PlaybackState) => {
+        const updateLastItemIntervalHandler = async () => {
+            const playbackState = await SpotifyManager.sdk.player.getPlaybackState();
+
             if (!getLastPlaybackState || !playbackState) {
                 if (playbackState !== getLastPlaybackState) updatePlaybackState(playbackState);
                 return;
@@ -42,20 +44,17 @@ export default function PlaybackContextWrapper(props: {children: ReactNode}) {
             }
         };
 
-        const intervalId = window.setInterval(
-            () => SpotifyManager.sdk.player.getPlaybackState().then(updateLastItemIntervalHandler),
-            3000
-        );
-        SpotifyManager.sdk.player.getPlaybackState().then(updateLastItemIntervalHandler);
+        const intervalId = window.setInterval(updateLastItemIntervalHandler, 3000);
+        window.setTimeout(updateLastItemIntervalHandler, 100);
+        window.addEventListener('force-context-update', updateLastItemIntervalHandler);
 
         return () => {
             window.clearInterval(intervalId);
+            window.removeEventListener('force-context-update', updateLastItemIntervalHandler)
         };
 
     }, [getLastPlaybackState]);
 
-
-    console.log('rerender playback context');
 
     return <PlaybackContext.Provider value={{
         state: getLastPlaybackState || undefined,
