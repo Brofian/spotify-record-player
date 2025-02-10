@@ -1,11 +1,48 @@
 #playlist-listing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 
     .column-header {
-        margin-bottom: 0.5rem;
         padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
         border-bottom-style: solid;
         border-bottom-width: 1px;
         @apply border-neutral-600;
+    }
+
+    .playlist-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background-color: var(--neutral-650);
+        border-radius: 0.5rem;
+        overflow: hidden;
+        cursor: pointer;
+
+        &:hover {
+            @apply bg-neutral-600;
+        }
+
+        &.hidden {
+            filter: grayscale(1) brightness(60%);
+        }
+
+        .playlist-item-image {
+            flex: 0 0 3rem;
+        }
+
+        .playlist-item-description {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding-right: 0.5rem;
+        }
+
+        .playlist-item-context {
+
+        }
+
     }
 
 }

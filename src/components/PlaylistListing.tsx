@@ -1,5 +1,7 @@
 import {SimplifiedPlaylist} from "@spotify/web-api-ts-sdk";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
+import {FaEye, FaEyeSlash} from "react-icons/fa";
+import ContextMenu from "../elements/ContextMenu.tsx";
 import DropdownSelect from "../elements/DropdownSelect.tsx";
 import ConfigHelper from "../util/ConfigHelper.ts";
 import SpotifyManager from "../util/SpotifyManager.ts";
@@ -9,6 +11,7 @@ export default function PlaylistListing() {
     const [getPlaylists, setPlaylists] = useState<SimplifiedPlaylist[]>([]);
     const [getIgnoredPlaylistIds, setIgnoredPlaylistsIds] = useState<string[]>([]);
     const [getFilterMode, setFilterMode] = useState<'default'|'all'>('default');
+    const [getContextRef, setContextRef] = useState<{anchor: {x: number, y: number}, id: string}|undefined>(undefined);
 
     useEffect(() => {
         SpotifyManager.sdk.currentUser.profile().then(profile => {
@@ -32,6 +35,14 @@ export default function PlaylistListing() {
             ConfigHelper.unwatch(watchId);
         }
     }, [getPlaylists]);
+
+    const toggleIgnoredPlaylistId = useCallback((playlistId: string, shouldAdd: boolean) => {
+        const ignoredPlaylists = new Set(ConfigHelper.get('ignoredPlaylistIds'));
+        if (shouldAdd)  ignoredPlaylists.add(playlistId);
+        else            ignoredPlaylists.delete(playlistId);
+        ConfigHelper.set('ignoredPlaylistIds', [...ignoredPlaylists]);
+        setContextRef(undefined);
+    }, []);
 
 
     const getFilteredPlaylists = (): SimplifiedPlaylist[] => {
@@ -61,15 +72,47 @@ export default function PlaylistListing() {
 
         </div>
 
-        {filteredPlaylists.map(playlist =>
-            <div className={'playlist-item'} key={playlist.id}>
-                {playlist.name}
+        {filteredPlaylists.map(playlist => {
+            const isHidden = getFilterMode === 'all' && getIgnoredPlaylistIds.includes(playlist.id);
 
-                <span onClick={() => {
-                    ConfigHelper.set('ignoredPlaylistIds', [...ConfigHelper.get('ignoredPlaylistIds'), playlist.id])
-                }}>Ignore</span>
-            </div>
-        )}
+            return (
+                <div className={`playlist-item ${isHidden ? 'hidden' : ''}`}
+                     key={playlist.id}
+                     onContextMenu={(event) => setContextRef({
+                         id: playlist.id,
+                         anchor: {x: event.clientX, y: event.clientY},
+                     })}
+                >
+
+                    <div className={'playlist-item-image'}>
+                        <img
+                            src={playlist.images[0].url}
+                            alt={`Playlist Image - ${playlist.name}`}
+                        />
+                    </div>
+
+                    <div className={'playlist-item-description'}>
+                        {playlist.name}
+                    </div>
+
+                    {getContextRef && getContextRef.id === playlist.id &&
+                        <ContextMenu
+                            closeCallback={() => setContextRef(undefined)}
+                            anchor={getContextRef.anchor}
+                        >
+                            <div
+                                className={'context-menu-button'}
+                                onClick={toggleIgnoredPlaylistId.bind(undefined, playlist.id, !isHidden)}
+                            >
+                                {isHidden ? <FaEye /> : <FaEyeSlash />}
+                                {isHidden ? 'Reveal playlist' : 'Hide playlist'}
+                            </div>
+                        </ContextMenu>
+                    }
+
+                </div>
+            );
+        })}
 
     </div>
 }

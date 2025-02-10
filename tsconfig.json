@@ -20,7 +20,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "types": ["electron-vite/node", "vite/client"]
+    "types": ["electron-vite/node", "vite/client", "node"]
   },
   "include": ["src", "electron", "src/vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

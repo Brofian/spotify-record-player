@@ -1,0 +1,30 @@
+.context-menu {
+    position: fixed;
+    z-index: 500;
+
+    @apply bg-neutral-600;
+    @apply border-green-800;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    box-shadow: 3px 3px 2px 0 var(--color-neutral-950);
+
+    .context-menu-button,
+    .context-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+    }
+
+    .context-menu-button {
+        cursor: pointer;
+
+        &:hover {
+            @apply bg-neutral-700;
+        }
+    }
+}
