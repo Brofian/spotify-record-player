@@ -34,6 +34,7 @@ export default function ContextMenu(props: IProps) {
                  left: props.anchor.x,
                  top: props.anchor.y,
              }}
+             onClick={(event) => event.stopPropagation()}
         >
             {props.children}
         </div>

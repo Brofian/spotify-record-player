@@ -38,6 +38,7 @@ export default function PlaybackContextWrapper(props: {children: ReactNode}) {
                 (playbackState.item !== null && playbackState.item.id !== getLastPlaybackState.item.id) ||
                 playbackState.is_playing !== getLastPlaybackState.is_playing ||
                 playbackState.repeat_state !== getLastPlaybackState.repeat_state ||
+                playbackState.shuffle_state !== getLastPlaybackState.shuffle_state ||
                 (playbackState.device === null) !== (getLastPlaybackState.device === null) ||
                 playbackState.device !== null && (playbackState.device.id !== getLastPlaybackState.device.id)
             ) {

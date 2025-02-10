@@ -34,9 +34,24 @@
 
         .playlist-item-description {
             overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            padding-right: 0.5rem;
+            display: flex;
+            flex-direction: column;
+
+            &.is-playing .playlist-item-name {
+                @apply text-green-600 font-bold;
+            }
+
+            .playlist-item-name {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                padding-right: 0.5rem;
+                font-weight: 400;
+            }
+
+            .playlist-item-info {
+                @apply text-xs text-neutral-300;
+            }
         }
 
         .playlist-item-context {

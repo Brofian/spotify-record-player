@@ -1,13 +1,15 @@
 import {SimplifiedPlaylist} from "@spotify/web-api-ts-sdk";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {FaEye, FaEyeSlash} from "react-icons/fa";
 import ContextMenu from "../elements/ContextMenu.tsx";
 import DropdownSelect from "../elements/DropdownSelect.tsx";
 import ConfigHelper from "../util/ConfigHelper.ts";
+import EventHelper from "../util/EventHelper.ts";
 import SpotifyManager from "../util/SpotifyManager.ts";
+import {PlaybackContext} from "../wrappers/PlaybackContext.tsx";
 
 export default function PlaylistListing() {
-    // const playbackContext = useContext(PlaybackContext)
+    const playbackContext = useContext(PlaybackContext)
     const [getPlaylists, setPlaylists] = useState<SimplifiedPlaylist[]>([]);
     const [getIgnoredPlaylistIds, setIgnoredPlaylistsIds] = useState<string[]>([]);
     const [getFilterMode, setFilterMode] = useState<'default'|'all'>('default');
@@ -75,6 +77,8 @@ export default function PlaylistListing() {
         {filteredPlaylists.map(playlist => {
             const isHidden = getFilterMode === 'all' && getIgnoredPlaylistIds.includes(playlist.id);
 
+            const isCurrentlyPlaying = playbackContext.state?.context?.uri === playlist.uri;
+
             return (
                 <div className={`playlist-item ${isHidden ? 'hidden' : ''}`}
                      key={playlist.id}
@@ -82,6 +86,15 @@ export default function PlaylistListing() {
                          id: playlist.id,
                          anchor: {x: event.clientX, y: event.clientY},
                      })}
+                     onClick={() => {
+                         const device = playbackContext.state?.device;
+                         const deviceId = device && device.id;
+                         if (deviceId) {
+                             SpotifyManager.sdk.player.startResumePlayback(deviceId,playlist.uri).then(() => {
+                                window.setTimeout(() => EventHelper.notify('forcePlaybackUpdate', undefined), 500);
+                             });
+                         }
+                     }}
                 >
 
                     <div className={'playlist-item-image'}>
@@ -91,8 +104,13 @@ export default function PlaylistListing() {
                         />
                     </div>
 
-                    <div className={'playlist-item-description'}>
-                        {playlist.name}
+                    <div className={`playlist-item-description ${isCurrentlyPlaying ? 'is-playing' : ''}`}>
+                        <div className={'playlist-item-name'}>
+                            {playlist.name}
+                        </div>
+                        <div className={'playlist-item-info'}>
+                            Hello world
+                        </div>
                     </div>
 
                     {getContextRef && getContextRef.id === playlist.id &&

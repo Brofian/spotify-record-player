@@ -1,21 +1,32 @@
 import {useCallback, useContext, useState} from "react";
 import {FaBackward, FaForward, FaPause, FaPlay} from 'react-icons/fa';
+import {FaRepeat, FaShuffle} from "react-icons/fa6";
 import EventHelper from "../util/EventHelper.ts";
 import spotifyManager from "../util/SpotifyManager.ts";
 import SpotifyManager from "../util/SpotifyManager.ts";
 import {PlaybackContext} from "../wrappers/PlaybackContext.tsx";
 
+type RepeatState = 'off'|'track'|'context';
+const repeatMap: {[key: string]: RepeatState} = {
+    off: 'context',
+    context: 'track',
+    track: 'off',
+}
+
+
 export default function ControlButtons() {
     const playbackContext = useContext(PlaybackContext);
-    const [isFetching, setFetching] = useState(false);
+    const [getFetchLevel, setFetchLevel] = useState<{level: number}>({level: 0});
 
-    const onButtonPressed = useCallback(async (btn: 'play'|'prev'|'next') => {
+    if (getFetchLevel.level > 0) getFetchLevel.level--;
+
+    const onButtonPressed = useCallback(async (btn: 'play'|'prev'|'next'|'shuffle'|'repeat') => {
         const activeDeviceId = playbackContext.state?.device.id;
-        if (!activeDeviceId || isFetching) {
+        if (!activeDeviceId || getFetchLevel.level > 0) {
             return;
         }
 
-        setFetching(true);
+        setFetchLevel({level: 2});
         try {
             switch (btn) {
                 case "play":
@@ -31,38 +42,63 @@ export default function ControlButtons() {
                 case 'next':
                     await spotifyManager.sdk.player.skipToNext(activeDeviceId);
                     break;
+                case 'shuffle':
+                    console.log('setting shuffle to: ', !playbackContext.state?.shuffle_state);
+                    await spotifyManager.sdk.player.togglePlaybackShuffle(!playbackContext.state?.shuffle_state, activeDeviceId);
+                    break;
+                case 'repeat':
+                    await spotifyManager.sdk.player.setRepeatMode(
+                        repeatMap[playbackContext.state?.repeat_state as RepeatState || 'off'],
+                        activeDeviceId);
+                    break;
             }
         }
         catch (err) {
             console.warn("Spotify SDK will parse return values, even if the response is defined as empty, so an error was ignored here");
             // console.error(err);
         }
-        setFetching(false);
 
-        window.setTimeout(() => EventHelper.notify('forcePlaybackUpdate', undefined), 100);
-    }, [playbackContext, isFetching]);
+        window.setTimeout(() => EventHelper.notify('forcePlaybackUpdate', undefined), 500);
+    }, [playbackContext, getFetchLevel]);
 
 
-    return <div id={'control-buttons'} className={`${isFetching ? 'is-fetching' : ''}`}>
-        <div className={'button button-prev'}
-             onClick={onButtonPressed.bind(undefined, 'prev')}
-        >
-            <FaBackward/>
+    return <div id={'control-buttons'} className={`${getFetchLevel.level > 0 ? 'is-fetching' : ''}`}>
+
+        <div className={'control-row'}>
+            <div className={'button button-prev'}
+                 onClick={onButtonPressed.bind(undefined, 'prev')}
+            >
+                <FaBackward/>
+            </div>
+
+            <div className={'button button-play'}
+                 onClick={onButtonPressed.bind(undefined, 'play')}
+            >
+                {playbackContext.state?.is_playing ?
+                    <FaPause/> :
+                    <FaPlay/>
+                }
+            </div>
+
+            <div className={'button button-next'}
+                 onClick={onButtonPressed.bind(undefined, 'next')}
+            >
+                <FaForward/>
+            </div>
         </div>
 
-        <div className={'button button-play'}
-             onClick={onButtonPressed.bind(undefined, 'play')}
-        >
-            {playbackContext.state?.is_playing ?
-                <FaPause/> :
-                <FaPlay/>
-            }
-        </div>
+        <div className={'control-row'}>
+            <div className={`button button-shuffle ${playbackContext.state?.shuffle_state ? 'is-shuffle' : ''}`}
+                 onClick={onButtonPressed.bind(undefined, 'shuffle')}
+            >
+                <FaShuffle/>
+            </div>
 
-        <div className={'button button-next'}
-             onClick={onButtonPressed.bind(undefined, 'next')}
-        >
-            <FaForward/>
+            <div className={`button button-repeat is-repeat-${playbackContext.state?.repeat_state || 'off'}`}
+                 onClick={onButtonPressed.bind(undefined, 'repeat')}
+            >
+                <FaRepeat/>
+            </div>
         </div>
 
     </div>
