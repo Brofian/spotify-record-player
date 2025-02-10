@@ -1,6 +1,7 @@
 import {app, BrowserWindow, protocol} from 'electron'
 import path from 'node:path'
 import {fileURLToPath} from 'node:url'
+import Config from "./config.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -23,6 +24,8 @@ export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 'public') : RENDERER_DIST
 
 let win: BrowserWindow | null
+
+const configuration = new Config(app);
 
 function createWindow() {
     win = new BrowserWindow({
@@ -76,4 +79,5 @@ app.whenReady()
             return Response.redirect(targetUrl + query);
         })
     })
+    .then(configuration.setupIPCBridge.bind(configuration))
     .then(createWindow)

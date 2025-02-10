@@ -5,11 +5,13 @@ import Header from "./components/Header.tsx";
 import LoginCover from "./components/LoginCover.tsx";
 import PlaybackVinyl from "./components/PlaybackVinyl.tsx";
 import PlaylistListing from "./components/PlaylistListing.tsx";
+import ConfigHelper from "./util/ConfigHelper.ts";
 import SpotifyManager from "./util/SpotifyManager.ts";
 import PlaybackContextWrapper from "./wrappers/PlaybackContextWrapper.tsx";
 
 function App() {
     const [isAuthenticated, setAuthenticated] = useState(false);
+    const [isConfigInitialized, setConfigInitialized] = useState(false);
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -19,8 +21,14 @@ function App() {
                 }, 1000);
             })
         }
-    }, [isAuthenticated]);
+        if (!isConfigInitialized) {
+            ConfigHelper.onInitialize(() => setConfigInitialized(true));
+        }
+    }, [isConfigInitialized, isAuthenticated]);
 
+    if (!isConfigInitialized) {
+        return <></>;
+    }
 
     return (
         <PlaybackContextWrapper>

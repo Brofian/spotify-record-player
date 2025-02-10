@@ -1,5 +1,6 @@
 import {PlaybackState, Track} from "@spotify/web-api-ts-sdk";
 import {ReactNode, useEffect, useState} from "react";
+import EventHelper from "../util/EventHelper.ts";
 import SpotifyManager from "../util/SpotifyManager.ts";
 import {PlaybackContext} from "./PlaybackContext.tsx";
 
@@ -46,11 +47,11 @@ export default function PlaybackContextWrapper(props: {children: ReactNode}) {
 
         const intervalId = window.setInterval(updateLastItemIntervalHandler, 3000);
         window.setTimeout(updateLastItemIntervalHandler, 100);
-        window.addEventListener('force-context-update', updateLastItemIntervalHandler);
+        EventHelper.subscribe('forcePlaybackUpdate', updateLastItemIntervalHandler);
 
         return () => {
             window.clearInterval(intervalId);
-            window.removeEventListener('force-context-update', updateLastItemIntervalHandler)
+            EventHelper.unsubscribe('forcePlaybackUpdate', updateLastItemIntervalHandler)
         };
 
     }, [getLastPlaybackState]);

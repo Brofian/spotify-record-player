@@ -1,5 +1,6 @@
 import {useCallback, useContext, useState} from "react";
 import {FaBackward, FaForward, FaPause, FaPlay} from 'react-icons/fa';
+import EventHelper from "../util/EventHelper.ts";
 import spotifyManager from "../util/SpotifyManager.ts";
 import SpotifyManager from "../util/SpotifyManager.ts";
 import {PlaybackContext} from "../wrappers/PlaybackContext.tsx";
@@ -38,7 +39,7 @@ export default function ControlButtons() {
         }
         setFetching(false);
 
-        window.setTimeout(() => window.dispatchEvent(new Event('force-context-update')), 100);
+        window.setTimeout(() => EventHelper.notify('forcePlaybackUpdate', undefined), 100);
     }, [playbackContext, isFetching]);
 
 

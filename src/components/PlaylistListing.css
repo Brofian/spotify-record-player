@@ -1,4 +1,11 @@
 #playlist-listing {
 
+    .column-header {
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        @apply border-neutral-600;
+    }
 
 }
