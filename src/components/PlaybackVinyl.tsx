@@ -1,11 +1,16 @@
+import {Episode, Track} from "@spotify/web-api-ts-sdk";
 import {useContext} from "react";
 import {PlaybackContext} from "../wrappers/PlaybackContext.tsx";
 
 export default function PlaybackVinyl() {
     const playbackContext = useContext(PlaybackContext);
-    const {state, track} = playbackContext;
+    const {state, item} = playbackContext;
 
-    const previewImages = track?.album.images || [];
+
+    const previewImages = (item && ((item.type === 'track') ?
+        (item as Track).album.images :
+        (item as Episode).images
+    )) || [];
 
     return<div
         id={'playback-vinyl'}

@@ -8,10 +8,12 @@
 @import "./components/Header.css";
 @import "./components/ControlButtons.css";
 @import "./components/PlaylistListing.css";
+@import "./components/CurrentTrackInfo.css";
 
 /* elements */
 @import "./elements/DropdownSelect.css";
 @import "./elements/ContextMenu.css";
+@import "./elements/CollapseArea.css";
 
 #root {
   margin: 0 auto;

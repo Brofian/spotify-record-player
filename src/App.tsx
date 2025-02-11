@@ -1,6 +1,7 @@
 import "./App.css";
 import {useEffect, useState} from "react";
 import ControlButtons from "./components/ControlButtons.tsx";
+import CurrentTrackInfo from "./components/CurrentTrackInfo.tsx";
 import Header from "./components/Header.tsx";
 import LoginCover from "./components/LoginCover.tsx";
 import PlaybackVinyl from "./components/PlaybackVinyl.tsx";
@@ -44,6 +45,7 @@ function App() {
 
             <div className={'layout-container container-right ' + (isAuthenticated ? 'show' : '')}>
                 <ControlButtons />
+                <CurrentTrackInfo />
             </div>
         </PlaybackContextWrapper>
     )

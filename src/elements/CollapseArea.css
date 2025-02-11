@@ -1,0 +1,24 @@
+.collapse-area {
+    display: grid;
+    transition: grid-template-rows 1s;
+    grid-template-rows: 0fr;
+
+    &.show {
+        grid-template-rows: 1fr;
+    }
+
+    .collapse-container {
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .collapse-handle {
+        height: 1.5rem;
+        margin-top: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        @apply bg-neutral-600;
+    }
+}

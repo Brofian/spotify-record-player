@@ -1,0 +1,8 @@
+#current-track-info {
+    margin-top: 1rem;
+
+    a:link {
+        @apply text-green-600;
+    }
+
+}
