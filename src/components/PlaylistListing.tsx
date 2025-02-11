@@ -109,7 +109,7 @@ export default function PlaylistListing() {
                             {playlist.name}
                         </div>
                         <div className={'playlist-item-info'}>
-                            Hello world
+                            {playlist.tracks?.total} elements
                         </div>
                     </div>
 
