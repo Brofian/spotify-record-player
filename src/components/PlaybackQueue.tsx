@@ -57,6 +57,7 @@ export default function PlaybackQueue() {
             <div id={'playback-queue-wrapper'}>
                 {fixedPreview.map(queueElement =>
                     <QueueElement
+                        key={queueElement.id}
                         element={queueElement}
                         onClick={onQueueElementClick}
                         isFetching={isFetching}
@@ -67,6 +68,7 @@ export default function PlaybackQueue() {
                     <CollapseArea>
                         {optionalPreview.map(queueElement =>
                             <QueueElement
+                                key={queueElement.id}
                                 element={queueElement}
                                 onClick={onQueueElementClick}
                                 isFetching={isFetching}
@@ -89,8 +91,7 @@ type ElementIProps = {
 
 function QueueElement(props: ElementIProps) {
     return (
-        <div key={props.element.id}
-             className={'queue-element'}
+        <div className={'queue-element'}
              onClick={props.isFetching ? undefined : () => props.onClick(props.element)}
         >
             {props.isFetching ? '...' : props.element.name}

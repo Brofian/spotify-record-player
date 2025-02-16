@@ -15,6 +15,7 @@
 @import "./elements/DropdownSelect.css";
 @import "./elements/ContextMenu.css";
 @import "./elements/CollapseArea.css";
+@import "./elements/PlayAnimation.css";
 
 #root {
   margin: 0 auto;

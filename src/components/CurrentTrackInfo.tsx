@@ -2,6 +2,7 @@ import {Episode, Track} from "@spotify/web-api-ts-sdk";
 import {useContext} from "react";
 import CollapseArea from "../elements/CollapseArea.tsx";
 import Link from "../elements/Link.tsx";
+import PlayAnimation from "../elements/PlayAnimation.tsx";
 import {PlaybackContext} from "../wrappers/PlaybackContext.tsx";
 
 export default function CurrentTrackInfo() {
@@ -18,7 +19,10 @@ export default function CurrentTrackInfo() {
 
             Currently playing:
             <br/>
-            <Link element={item}>{item.name}</Link>
+            <Link element={item}>
+                <PlayAnimation />
+                {item.name}
+            </Link>
             <br/>
 
             <CollapseArea>
