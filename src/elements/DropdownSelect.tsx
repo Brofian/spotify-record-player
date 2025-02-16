@@ -12,7 +12,8 @@ type Option<T extends ValidOptionValue> = {
 type IProps<T extends ValidOptionValue> = {
     options: Option<T>[];
     selected?: T;
-    onChange: (value: T) => void;
+    onChange: { (value: T): void };
+    onOpen?: { (): void };
 }
 
 export default function DropdownSelect<T extends ValidOptionValue>(props: IProps<T>) {
@@ -24,7 +25,10 @@ export default function DropdownSelect<T extends ValidOptionValue>(props: IProps
     return <div className={'dropdown-select'}>
 
         <div className={`dropdown-select-active ${isOpened ? 'opened' : ''}`}
-            onClick={() => setIsOpened(!isOpened)}
+            onClick={() => {
+                if (!isOpened && props.onOpen) props.onOpen();
+                setIsOpened(!isOpened)
+            }}
         >
             <FaAngleRight />
             {activeOption?.label}
