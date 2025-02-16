@@ -1,7 +1,7 @@
 import {SimplifiedPlaylist, UserProfile} from "@spotify/web-api-ts-sdk";
 import {useCallback, useContext, useEffect, useState} from "react";
 import {FaEye, FaEyeSlash} from "react-icons/fa";
-import ContextMenu from "../elements/ContextMenu.tsx";
+import ContextMenu, {AnchorPosition} from "../elements/ContextMenu.tsx";
 import DropdownSelect from "../elements/DropdownSelect.tsx";
 import ConfigHelper from "../util/ConfigHelper.ts";
 import EventHelper from "../util/EventHelper.ts";
@@ -13,7 +13,7 @@ export default function PlaylistListing() {
     const [getPlaylists, setPlaylists] = useState<SimplifiedPlaylist[]>([]);
     const [getIgnoredPlaylistIds, setIgnoredPlaylistsIds] = useState<string[]>([]);
     const [getFilterMode, setFilterMode] = useState<'default'|'all'>('default');
-    const [getContextRef, setContextRef] = useState<{anchor: {x: number, y: number}, id: string}|undefined>(undefined);
+    const [getContextRef, setContextRef] = useState<{anchor: AnchorPosition, id: string}|undefined>(undefined);
     const [getProfile, setProfile] = useState<UserProfile | null>(null);
 
     useEffect(() => {
@@ -69,8 +69,8 @@ export default function PlaylistListing() {
             <DropdownSelect
                 selected={getFilterMode}
                 options={[
-                    {value: 'default', label: 'Sichtbare'},
-                    {value: 'all', label: 'Alle'},
+                    {value: 'default', label: 'Visible only'},
+                    {value: 'all', label: 'All Playlists'},
                 ]}
                 onChange={(value) => setFilterMode(value)}
             />

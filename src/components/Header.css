@@ -3,7 +3,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    padding: 0.5rem 2rem;
+    padding: 0.5rem 0;
     display: flex;
     transform: translateY(-100%);
 
@@ -14,23 +14,38 @@
         transition: transform 1s ease-in-out 3s;
     }
 
-    profile-name {
-
+    .device-info {
+        margin-left: 1.5rem;
     }
 
-    .profile-image {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        overflow: hidden;
+    .profile-info {
+        @apply flex items-center justify-center;
+        gap: 1rem;
+        cursor: pointer;
+        padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+        margin: -0.5rem 0;
 
-        .fake-profile-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            @apply bg-neutral-800 text-green-600 text-xl font-bold;
+        &:hover {
+            @apply bg-green-700;
+        }
+
+        .profile-name {
+
+        }
+        .profile-image {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            overflow: hidden;
+
+            .fake-profile-image {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                @apply bg-neutral-800 text-green-600 text-xl font-bold;
+            }
         }
     }
 }

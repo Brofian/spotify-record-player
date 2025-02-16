@@ -1,10 +1,16 @@
 import {ReactNode, useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
 
+
+export type AnchorPosition = {
+    x: number;
+    y: number;
+}
+
 type IProps = {
     closeCallback: { (): void },
     children: ReactNode,
-    anchor: {x: number, y: number},
+    anchor: AnchorPosition,
 }
 
 export default function ContextMenu(props: IProps) {

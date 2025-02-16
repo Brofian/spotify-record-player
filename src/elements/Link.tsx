@@ -1,6 +1,6 @@
 import {ReactNode, useState} from "react";
 import {FaCheck, FaLink} from "react-icons/fa";
-import ContextMenu from "./ContextMenu.tsx";
+import ContextMenu, {AnchorPosition} from "./ContextMenu.tsx";
 
 type IPropsLink = {
     raw: string
@@ -18,7 +18,7 @@ type IProps = IPropsLink & {
 
 export default function Link(props: IProps) {
     const [copySuccess, setCopySuccess] = useState(false);
-    const [contextAnchor, setContextAnchor] = useState<{ x: number, y: number } | undefined>(undefined);
+    const [contextAnchor, setContextAnchor] = useState<AnchorPosition | undefined>(undefined);
 
     const link = ("raw" in props) ?
         props.raw :
