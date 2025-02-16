@@ -6,6 +6,7 @@ class SpotifyManagerContainer {
         import.meta.env.VITE_CLIENT_ID,
         "spauth://success",
         [
+            "streaming",
             "user-read-private",
             "user-read-email",
             "user-read-playback-state",

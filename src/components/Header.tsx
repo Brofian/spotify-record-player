@@ -6,6 +6,7 @@ import DropdownSelect from "../elements/DropdownSelect.tsx";
 import EventHelper from "../util/EventHelper.ts";
 import SpotifyManager from "../util/SpotifyManager.ts";
 import {PlaybackContext} from "../wrappers/PlaybackContext.tsx";
+import {localPlayerName} from "./LocalPlayer.tsx";
 
 export default function Header() {
     const playbackContext = useContext(PlaybackContext);
@@ -43,7 +44,7 @@ export default function Header() {
                         devices.map(device => {
                             return {
                                 value: device.id || '???',
-                                label: device?.name || '???'
+                                label: `${(device?.name || '???')}${localPlayerName === device.name ? ' (this window)' : ''}`
                             };
                         })
                     }
@@ -62,6 +63,8 @@ export default function Header() {
 
 
         <div className={'column justify-center'}>
+
+            {/* <LocalPlayer /> */}
 
         </div>
 
