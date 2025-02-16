@@ -14,8 +14,10 @@ export default function PlaybackContextWrapper(props: {children: ReactNode}) {
     useEffect(() => {
 
         if (getProfile === undefined) {
+            console.log('update profile');
             setProfile(null);
             SpotifyManager.sdk.currentUser.profile().then(setProfile);
+            return;
         }
 
         const updatePlaybackState = async (playbackState: PlaybackState) => {
@@ -43,9 +45,8 @@ export default function PlaybackContextWrapper(props: {children: ReactNode}) {
         }
 
         const updateLastItemIntervalHandler = async () => {
-            const me = await SpotifyManager.sdk.currentUser.profile();
             const playbackState = await SpotifyManager.sdk.player.getPlaybackState(
-                me.country as Market,
+                undefined,
                 'episode'
             );
 

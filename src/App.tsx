@@ -4,6 +4,7 @@ import ControlButtons from "./components/ControlButtons.tsx";
 import CurrentTrackInfo from "./components/CurrentTrackInfo.tsx";
 import Header from "./components/Header.tsx";
 import LoginCover from "./components/LoginCover.tsx";
+import PlaybackQueue from "./components/PlaybackQueue.tsx";
 import PlaybackVinyl from "./components/PlaybackVinyl.tsx";
 import PlaylistListing from "./components/PlaylistListing.tsx";
 import ConfigHelper from "./util/ConfigHelper.ts";
@@ -44,8 +45,11 @@ function App() {
             </div>
 
             <div className={'layout-container container-right ' + (isAuthenticated ? 'show' : '')}>
-                <ControlButtons />
-                <CurrentTrackInfo />
+                <ControlButtons/>
+                <br/>
+                <CurrentTrackInfo/>
+                <br/>
+                <PlaybackQueue/>
             </div>
         </PlaybackContextWrapper>
     )

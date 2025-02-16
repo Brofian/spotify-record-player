@@ -8,6 +8,7 @@
 @import "./components/Header.css";
 @import "./components/ControlButtons.css";
 @import "./components/PlaylistListing.css";
+@import "./components/PlaybackQueue.css";
 @import "./components/CurrentTrackInfo.css";
 
 /* elements */

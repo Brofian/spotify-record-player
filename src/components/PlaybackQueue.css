@@ -1,0 +1,46 @@
+#playback-queue {
+
+    &.is-fetching {
+        #playback-queue-wrapper {
+            .queue-element {
+                --qbg-dark: var(--neutral-650);
+                --qbg-light: var(--color-neutral-600);
+                background: linear-gradient(90deg, var(--qbg-dark) 0%, var(--qbg-dark) 40%, var(--qbg-light) 50%, var(--qbg-dark) 60%, var(--qbg-dark) 100%);
+                animation: queue-loading 1s infinite linear forwards;
+                background-size: 20rem;
+                cursor: default;
+            }
+        }
+    }
+
+    #playback-queue-wrapper {
+        border-radius: 1rem;
+
+        &, & .collapse-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .queue-element {
+            background-color: var(--neutral-650);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+
+            &:hover {
+                @apply bg-neutral-600;
+            }
+        }
+    }
+}
+
+
+@keyframes queue-loading {
+    from {
+        background-position-x: 0;
+    }
+    to {
+        background-position-x: 20rem;
+    }
+}

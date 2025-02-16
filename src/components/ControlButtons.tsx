@@ -1,6 +1,7 @@
-import {useCallback, useContext, useState} from "react";
+import {useCallback, useContext} from "react";
 import {FaBackward, FaForward, FaPause, FaPlay} from 'react-icons/fa';
 import {FaRepeat, FaShuffle} from "react-icons/fa6";
+import useUpdateTimeout from "../hooks/useUpdateTimeout.ts";
 import EventHelper from "../util/EventHelper.ts";
 import spotifyManager from "../util/SpotifyManager.ts";
 import SpotifyManager from "../util/SpotifyManager.ts";
@@ -16,17 +17,15 @@ const repeatMap: {[key: string]: RepeatState} = {
 
 export default function ControlButtons() {
     const playbackContext = useContext(PlaybackContext);
-    const [getFetchLevel, setFetchLevel] = useState<{level: number}>({level: 0});
-
-    if (getFetchLevel.level > 0) getFetchLevel.level--;
+    const [isFetching, setUpdateTimeout] = useUpdateTimeout();
 
     const onButtonPressed = useCallback(async (btn: 'play'|'prev'|'next'|'shuffle'|'repeat') => {
         const activeDeviceId = playbackContext.state?.device.id;
-        if (!activeDeviceId || getFetchLevel.level > 0) {
+        if (!activeDeviceId || isFetching) {
             return;
         }
 
-        setFetchLevel({level: 2});
+        setUpdateTimeout(1);
         try {
             switch (btn) {
                 case "play":
@@ -59,10 +58,10 @@ export default function ControlButtons() {
         }
 
         window.setTimeout(() => EventHelper.notify('forcePlaybackUpdate', undefined), 500);
-    }, [playbackContext, getFetchLevel]);
+    }, [playbackContext, isFetching, setUpdateTimeout]);
 
 
-    return <div id={'control-buttons'} className={`${getFetchLevel.level > 0 ? 'is-fetching' : ''}`}>
+    return <div id={'control-buttons'} className={`${isFetching ? 'is-fetching' : ''}`}>
 
         <div className={'control-row'}>
             <div className={'button button-prev'}

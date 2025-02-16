@@ -1,4 +1,4 @@
-import {SimplifiedPlaylist} from "@spotify/web-api-ts-sdk";
+import {SimplifiedPlaylist, UserProfile} from "@spotify/web-api-ts-sdk";
 import {useCallback, useContext, useEffect, useState} from "react";
 import {FaEye, FaEyeSlash} from "react-icons/fa";
 import ContextMenu from "../elements/ContextMenu.tsx";
@@ -14,21 +14,24 @@ export default function PlaylistListing() {
     const [getIgnoredPlaylistIds, setIgnoredPlaylistsIds] = useState<string[]>([]);
     const [getFilterMode, setFilterMode] = useState<'default'|'all'>('default');
     const [getContextRef, setContextRef] = useState<{anchor: {x: number, y: number}, id: string}|undefined>(undefined);
+    const [getProfile, setProfile] = useState<UserProfile | null>(null);
 
     useEffect(() => {
-        SpotifyManager.sdk.currentUser.profile().then(profile => {
-
+        if (!getProfile) {
+            SpotifyManager.sdk.currentUser.profile().then(setProfile);
+        }
+        else {
             SpotifyManager.sdk.currentUser.playlists.playlists().then(page => {
                 const playlists = page.items
-                    .filter(p => p.owner.id === profile.id)
+                    .filter(p => p.owner.id === getProfile.id)
                     .sort((a, b) => a.name < b.name ? -1 : 1);
 
                 setPlaylists(playlists)
             });
-        });
+        }
 
         setIgnoredPlaylistsIds(ConfigHelper.get('ignoredPlaylistIds'))
-    }, []);
+    }, [getProfile]);
 
 
     useEffect(() => {
